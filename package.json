@@ -1,0 +1,30 @@
+{
+  "name": "testmu-sdet2-augustine",
+  "version": "1.0.0",
+  "description": "TestMu AI Talent Assessment",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AugustineAutoGit/testmu-sdet2-augustine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AugustineAutoGit/testmu-sdet2-augustine/issues"
+  },
+  "homepage": "https://github.com/AugustineAutoGit/testmu-sdet2-augustine#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.1",
+    "allure-commandline": "^2.41.0",
+    "allure-js-commons": "^3.9.0",
+    "allure-playwright": "^3.9.0",
+    "dotenv": "^17.4.2",
+    "eslint": "^10.4.0",
+    "eslint-plugin-playwright": "^2.10.4"
+  }
+}
