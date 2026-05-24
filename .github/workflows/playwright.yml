@@ -37,7 +37,7 @@ jobs:
       run: npx playwright test
 
     - name: Run Allure Action
-      uses: allure-framework/allure-report@v0
+      uses: allure-framework/allure-action@v0
       with:
         report-directory: "./test-results"
         remote-href: "https://allure-framework.github.io/allure-action/"
