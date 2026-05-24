@@ -9,7 +9,7 @@ on:
 permissions:
   pull-requests: write
   checks: write
-  
+
 jobs:
   test:
     name: Run Playwright Tests
@@ -40,4 +40,5 @@ jobs:
       uses: allure-framework/allure-report@v0
       with:
         report-directory: "./test-results"
+        remote-href: "https://allure-framework.github.io/allure-action/"
         github-token: ${{ secrets.GITHUB_TOKEN }}
