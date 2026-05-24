@@ -1,31 +1,32 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
-import { suite } from 'allure-js-commons';
+import { defineConfig } from '@playwright/test';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
 import dotenv from 'dotenv';
 import os from 'os';
 import path from 'path';
-dotenv.config({ path: path.resolve(`${__dirname}/tests/config`, '.env') });
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, 'tests/config', 'goal.test.env') });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
   expect: {
-    timeout: 5000, 
+    timeout: 5000,
   },
   testDir: './tests/specs',
   fullyParallel: process.env.PARALLEL_EXECUTION === 'true',
   forbidOnly: !!process.env.CI,
   outputDir: 'test-results',
-  reporter: [['allure-playwright', 
+  reporter: [['allure-playwright',
     {
       resultsDir: 'test-results',
       suiteTitle: true,
+      detail: false,
       environmentInfo: {
         os_platform: os.platform(),
         os_release: os.release(),
@@ -40,8 +41,9 @@ export default defineConfig({
     actionTimeout: 30000,
     acceptDownloads: true,
     baseURL: process.env.APP_URL,
-    ignoreHTTPSErrors: true,
-    navigationTimeout: 60000,
+    headless: process.env.CI ? true : false,
+    // ignoreHTTPSErrors: true,
+    navigationTimeout: 120000,
     screenshot: 'only-on-failure',
     testIdAttribute: 'data-test-id',
     trace: 'retain-on-failure',
@@ -53,13 +55,13 @@ export default defineConfig({
   projects: [
     {
       name: process.env.BROWSER || 'chrome',
-      use: { 
+      use: {
         browserName:
           process.env.BROWSER === 'firefox' ? 'firefox' :
-          process.env.BROWSER === 'safari' ? 'webkit' :
-          'chromium',
-          ...(process.env.BROWSER === 'chrome' ? { channel: 'chrome' } :
-            process.env.BROWSER === 'edge' ? { channel: 'msedge' } : {}),
+            process.env.BROWSER === 'safari' ? 'webkit' :
+              'chromium',
+        ...(process.env.BROWSER === 'chrome' ? { channel: 'chrome' } :
+          process.env.BROWSER === 'edge' ? { channel: 'msedge' } : {}),
         launchOptions: {
           args:
             process.env.BROWSER === 'firefox'
@@ -69,10 +71,10 @@ export default defineConfig({
                 '-disable-popup-blocking',
                 '-disable-notifications',
                 '--disable-blink-features=AutomationControlled',
-              ]
+              ],
         },
         // CI: Fixed port, Local: maximized
-        viewport: process.env.CI ? { width: 1280, height: 720 } : undefined,
+        viewport: process.env.CI ? { width: 1280, height: 720 } : null,
       },
     },
   ],

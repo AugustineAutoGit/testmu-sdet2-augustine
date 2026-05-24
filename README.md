@@ -1,4 +1,4 @@
-# ** 🎭 Playwright JavaScript Automation**
+# 🎭 Playwright JavaScript Automation
 
 This repository contains Playwright end-to-end tests for the application. The goal of this README is to let another engineer pick up the project and extend it without needing additional handoff.
 

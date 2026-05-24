@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "TestMu AI Talent Assessment",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AugustineAutoGit/testmu-sdet2-augustine.git"
@@ -11,7 +15,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/AugustineAutoGit/testmu-sdet2-augustine/issues"
   },
@@ -20,6 +24,7 @@
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
+    "ajv": "^8.20.0",
     "allure-commandline": "^2.41.0",
     "allure-js-commons": "^3.9.0",
     "allure-playwright": "^3.9.0",
