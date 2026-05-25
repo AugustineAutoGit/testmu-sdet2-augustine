@@ -15,9 +15,9 @@ jobs:
     name: Run Playwright Tests
     runs-on: ubuntu-latest
     env:
-      USERNAME: ${{ secrets.USERNAME }}
-      PASSWORD: ${{ secrets.PASSWORD }}
-      API_KEY: ${{ secrets.API_KEY }}
+      USERNAME: "${{ secrets.USERNAME }}"
+      PASSWORD: "${{ secrets.PASSWORD }}"
+      API_KEY: "${{ secrets.API_KEY }}"
       BROWSER: ${{ vars.BROWSER || 'chrome' }}
 
     steps:
@@ -39,10 +39,33 @@ jobs:
       run: npx playwright test specs/api
       timeout-minutes: 1
 
-    - name: Run Allure Action
+    - name: Upload Output Folder
       if: always()
-      uses: allure-framework/allure-action@v0
+      uses: actions/upload-artifact@v4
       with:
-        report-directory: "./test-results"
-        remote-href: "https://allure-framework.github.io/allure-action/"
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        name: test-results
+        path: './test-results'
+        retention-days: 2
+        
+    - name: Load test report history
+      if: always()
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Build Test Report
+      uses: simple-elf/allure-report-action@v1.9
+      if: always()
+      with:
+        gh-pages: gh-pages
+        allure-hsitory: allure-history
+        allure-results: ./test-results
+
+    - name: Publish Test Report
+      if: always()
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: ./allure-report
+        publish_dir: allure-history

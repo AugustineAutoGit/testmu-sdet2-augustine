@@ -30,7 +30,7 @@ export default defineConfig({
       },
     }],
   ],
-  retries: process.env.CI ? 2 : Number(process.env.RETRY_COUNT),
+  retries: process.env.CI ? 0 : Number(process.env.RETRY_COUNT),
   timeout: Number(process.env.TIMEOUT),
   use: {
     actionTimeout: 30000,
