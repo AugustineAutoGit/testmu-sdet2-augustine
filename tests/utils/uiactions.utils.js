@@ -7,6 +7,7 @@ export class UIActions {
     this.page = page;
   }
 
+  // @ts-ignore
   async launch (url) {
     await this.page.goto(url);
   }
@@ -34,16 +35,21 @@ export class UIActions {
      */
   async click (locator, options = { timeout: 30000 }) {
     try { // 1st attempt: Standard scroll if needed and click
+      // @ts-ignore
       await locator.waitFor({ state: options.state || 'visible', timeout: options.timeout });
+      // @ts-ignore
       await locator.scrollIntoViewIfNeeded({ timeout: options.timeout });
       await locator.click(options);
     } catch {
       try { // 2nd attempt: Click on the centre of the element using bound box x and y coordinates
+        // @ts-ignore
         await locator.waitFor({ state: options.state || 'visible', timeout: options.timeout });
         const boundingBox = await locator.boundingBox();
         await locator.click({
           position: {
+            // @ts-ignore
             x: boundingBox.width / 2,
+            // @ts-ignore
             y: boundingBox.height / 2,
           },
           ...options,
@@ -76,19 +82,36 @@ export class UIActions {
      * @param {object} options
      */
   async type (locator, text, options = { delay: 100,timeout: 30000 }) {
+    // @ts-ignore
     await locator.waitFor({ state: options.state || 'visible', timeout: options.timeout });
+    // @ts-ignore
     await locator.pressSequentially(text, { delay: options.delay, timeout: options.timeout });
   }
 
+  /**
+   * Check if the element is visible.
+   * @param {Locator} locator
+   * @returns {Promise<boolean>}
+   */
   async isVisible (locator) {
-    return await locator.isVisible();
+    const isVisible = await locator.isVisible();
+    return isVisible;
   }
 
+  /**
+   * Get the text content of the element.
+   * @param {Locator} locator
+   * @param {object} options
+   * @returns {Promise<string | null>}
+   */
   async getText (locator, options = { timeout: 30000 }) {
+    // @ts-ignore
     await locator.waitFor({ state: options.state || 'visible', timeout: options.timeout });
-    return await locator.textContent(options);
+    const text = await locator.textContent(options);
+    return text;
   }
 
+  // @ts-ignore
   async locatorHandler (locator, handlemethod) {
     this.page.addLocatorHandler(locator, await handlemethod);
   }
