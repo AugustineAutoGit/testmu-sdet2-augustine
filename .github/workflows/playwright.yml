@@ -29,9 +29,6 @@ jobs:
       with:
         node-version: lts/*
 
-    - name: Install Java for Allure Report
-      run: apt-get update && apt-get install -y openjdk-21-jre
-
     - name: Install dependencies
       run: npm i
 
