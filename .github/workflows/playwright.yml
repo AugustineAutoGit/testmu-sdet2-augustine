@@ -17,6 +17,7 @@ jobs:
     env:
       USERNAME: ${{ secrets.USERNAME }}
       PASSWORD: ${{ secrets.PASSWORD }}
+      BROWSER: ${{ env.BROWSER }}
 
     steps:
     - name: Checkout code
