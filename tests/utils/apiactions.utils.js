@@ -5,7 +5,8 @@ export class APIActions {
    * @param {import('@playwright/test').APIRequestContext} request
    * @param {string} baseURL
    */
-  constructor (request, baseURL = 'https://reqres.in') {
+  // @ts-ignore
+  constructor (request, baseURL = process.env.API_URL) {
     this.request = request;
     this.baseURL = baseURL.replace(/\/+$/, '');
     this.ajv = new Ajv({ allErrors: true });
@@ -121,24 +122,24 @@ export class APIActions {
    * @param {import('@playwright/test').APIResponse} response
   * @returns {Promise<number>}
    */
-  async validateStatus (response) {
+  async getStatus (response) {
     return response.status();
   }
 
   /**
-   * Validate response body is valid JSON.
+   * Get the JSON body of the response.
    * @param {import('@playwright/test').APIResponse} response
    */
-  async validateJson (response) {
+  async getJson (response) {
     const json = await response.json();
     return json;
   }
 
   /**
-   * Assert the response time is below a threshold.
+   * Get the response time.
    * @param {import('@playwright/test').APIResponse} response
    */
-  validateResponseTime (response) {
+  getResponseTime (response) {
     const duration = /** @type {{duration?: number}} */ (response).duration ?? 0;
     return duration;
   }

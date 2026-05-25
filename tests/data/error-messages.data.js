@@ -9,5 +9,6 @@ export const errorMessages = {
   emptyEmailError: 'Please enter an email address',
   invalidEmailError: 'Please enter a valid email address',
   passwordError: 'Please enter a valid password. Your password must match the policy below:',
+  apiMissingPasswordError: 'Missing password',
 
 };

@@ -7,9 +7,9 @@ test.describe('ReqRes JSON schema validation', () => {
   test('User detail response matches schema', async ({ request }) => {
     const api = new APIActions(request, apiBase);
     const response = await api.get('/api/users/1');
-    const status = await api.validateStatus(response);
+    const status = await api.getStatus(response);
     expect(status).toBe(200);
-    const body = await api.validateJson(response);
+    const body = await api.getJson(response);
 
     const userSchema = {
       type: 'object',
@@ -48,9 +48,9 @@ test.describe('ReqRes JSON schema validation', () => {
       name: 'john',
       job: 'engineer',
     });
-    const status2 = await api.validateStatus(response);
+    const status2 = await api.getStatus(response);
     expect(status2).toBe(201);
-    const body = await api.validateJson(response);
+    const body = await api.getJson(response);
 
     const createSchema = {
       type: 'object',
@@ -71,9 +71,9 @@ test.describe('ReqRes JSON schema validation', () => {
   test('User list response schema is valid', async ({ request }) => {
     const api = new APIActions(request, apiBase);
     const response = await api.get('/api/users?page=1');
-    const status3 = await api.validateStatus(response);
+    const status3 = await api.getStatus(response);
     expect(status3).toBe(200);
-    const body = await api.validateJson(response);
+    const body = await api.getJson(response);
 
     const listSchema = {
       type: 'object',
