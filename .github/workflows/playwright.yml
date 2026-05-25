@@ -30,8 +30,8 @@ jobs:
     - name: Install dependencies
       run: npm i
 
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+    - name: Install Playwright Browser
+      run: npx playwright install ${{ env.BROWSER }}
 
     - name: Run Playwright tests
       run: npx playwright test

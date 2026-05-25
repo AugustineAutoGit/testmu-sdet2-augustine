@@ -42,14 +42,13 @@ export default defineConfig({
     acceptDownloads: true,
     baseURL: process.env.APP_URL,
     headless: process.env.CI ? true : false,
-    // ignoreHTTPSErrors: true,
     navigationTimeout: 120000,
     screenshot: 'only-on-failure',
     testIdAttribute: 'data-test-id',
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
   },
-  workers: process.env.CI ? 1 : Number(process.env.WORKERS_COUNT),
+  workers: process.env.CI ? 5 : Number(process.env.WORKERS_COUNT),
 
   /* Configure projects for major browsers */
   projects: [
@@ -61,7 +60,7 @@ export default defineConfig({
             process.env.BROWSER === 'safari' ? 'webkit' :
               'chromium',
         ...(process.env.BROWSER === 'chrome' ? { channel: 'chrome' } :
-          process.env.BROWSER === 'edge' ? { channel: 'msedge' } : {}),
+          process.env.BROWSER === 'msedge' ? { channel: 'msedge' } : {}),
         launchOptions: {
           args:
             process.env.BROWSER === 'firefox'
