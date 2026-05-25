@@ -3,7 +3,7 @@ export const errorMessages = {
   emptyDOBError: 'Please enter a valid date format',
   futureDOBError: 'Your date of birth cannot be in the future',
   emptyFirstNameError: 'Please enter a first name',
-  invalidFirstNameError: 'Please enter a valid first name',
+  invalidFirstNameError: 'Please enter a valid First Name',
   emptyLastNameError: 'Please enter a last name',
   invalidLastNameError: 'Please enter a valid last name',
   emptyEmailError: 'Please enter an email address',
