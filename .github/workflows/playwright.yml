@@ -18,7 +18,7 @@ jobs:
       USERNAME: ${{ secrets.USERNAME }}
       PASSWORD: ${{ secrets.PASSWORD }}
       API_KEY: ${{ secrets.API_KEY }}
-      BROWSER: ${{ vars.BROWSER }}
+      BROWSER: ${{ vars.BROWSER || 'chrome' }}
 
     steps:
     - name: Checkout code
@@ -33,10 +33,10 @@ jobs:
       run: npm i
 
     - name: Install Playwright Browser
-      run: npx playwright install ${{ env.BROWSER }}
+      run: npx playwright install "$BROWSER"
 
     - name: Run Playwright tests
-      run: npx playwright test specs/ui
+      run: npx playwright test specs/api
       timeout-minutes: 1
 
     - name: Run Allure Action
