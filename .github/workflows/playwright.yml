@@ -31,13 +31,14 @@ jobs:
       run: npm i
 
     - name: Install Playwright Browser
-      run: npx playwright install ${{ env.BROWSER }}
+      run: npx playwright install ${{ vars.BROWSER }}
 
     - name: Run Playwright tests
       run: npx playwright test
-      timeout-minutes: 5
+      timeout-minutes: 1
 
     - name: Run Allure Action
+      if: always()
       uses: allure-framework/allure-action@v0
       with:
         report-directory: "./test-results"
