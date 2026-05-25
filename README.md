@@ -136,22 +136,34 @@ Below is a minimal workflow snippet; place this in `.github/workflows/playwright
 
 ```yaml
 name: Playwright Tests
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
+permissions:
+  contents: write
+
 jobs:
   test:
     name: Run Playwright Tests
+    environment:
+        name: test
+        url: https://augustineautogit.github.io/testmu-sdet2-augustine/${{ github.run_number }}/index.html
     runs-on: ubuntu-latest
     env:
-      USERNAME: ${{ secrets.USERNAME }}
-      PASSWORD: ${{ secrets.PASSWORD }}
+      # USERNAME: "${{ secrets.USERNAME }}"
+      # PASSWORD: "${{ secrets.PASSWORD }}"
+      # API_KEY: "${{ secrets.API_KEY }}"
+      BROWSER: ${{ vars.BROWSER || 'chrome' }}
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -159,19 +171,49 @@ jobs:
         node-version: lts/*
 
     - name: Install dependencies
-      run: npm ci
+      run: npm i
 
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+    # - name: Install Playwright Browser
+    #   run: npx playwright install "$BROWSER"
 
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test specs/api
+      timeout-minutes: 1
 
-    - name: Run Allure Action
-      uses: allure-framework/allure-report@v0
+    - name: Upload Output Folder
+      if: always()
+      uses: actions/upload-artifact@v4
       with:
-        report-directory: "./test-results"
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        name: test-results
+        path: 'test-results'
+        retention-days: 2
+        
+    - name: Load test report history
+      if: always()
+      continue-on-error: true
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Build Test Report
+      uses: simple-elf/allure-report-action@v1.13
+      if: always()
+      id: allure-report
+      with:
+        allure_results: test-results
+        gh_pages: gh-pages
+        allure_report: allure-report
+        allure_history: allure-history
+        
+
+    - name: Publish Test Report
+      if: always()
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: allure-history
 
 ```
 
@@ -219,9 +261,7 @@ test('user can log in', async ({ page }) => {
 **What I'd build next (with more time)**
 
 - Visual regression testing (Percy or Playwright snapshot comparison) for UIs that must not regress.
-- Parallelized CI matrix across browsers and screen sizes, optimized via test-groups to reduce total runtime.
-- Test flakiness dashboard and automated quarantine for repeatedly failing tests.
-- Test data management: dedicated test user provisioning API or fixtures that provision and clean up test data.
+- A proper E2E Testing including both UI and API integrated in the same flows, due to time limiation and unavailabilty of such application couldn't cover the same, but have done the same in my previous projects
 - Component-level tests (Playwright for component/visual testing) and contract tests for APIs.
 - Add TypeScript for stronger typing in Page Objects and tests.
 
@@ -246,5 +286,3 @@ test('user can log in', async ({ page }) => {
 **Contact**
 
 If something is unclear or you need access to secrets for CI, open a ticket in the team board and assign to me; include the failing test and relevant artifacts (trace, screenshots) and I will prioritize follow-up.
-
--- End of README --
