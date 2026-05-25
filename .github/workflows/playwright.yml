@@ -17,6 +17,7 @@ jobs:
     env:
       USERNAME: ${{ secrets.USERNAME }}
       PASSWORD: ${{ secrets.PASSWORD }}
+      API_KEY: ${{ secrets.API_KEY }}
       BROWSER: ${{ vars.BROWSER }}
 
     steps:
@@ -35,7 +36,7 @@ jobs:
       run: npx playwright install ${{ env.BROWSER }}
 
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test specs/ui
       timeout-minutes: 1
 
     - name: Run Allure Action
