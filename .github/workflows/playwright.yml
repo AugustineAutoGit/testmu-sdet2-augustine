@@ -52,13 +52,14 @@ jobs:
         
     - name: Load test report history
       if: always()
+      continue-on-error: true
       uses: actions/checkout@v4
       with:
         ref: gh-pages
         path: gh-pages
 
     - name: Build Test Report
-      uses: simple-elf/allure-report-action@v1.9
+      uses: simple-elf/allure-report-action@v1.13
       if: always()
       with:
         gh-pages: gh-pages
@@ -70,5 +71,5 @@ jobs:
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: ./allure-report
+        publish_branch: gh-pages
         publish_dir: allure-history
