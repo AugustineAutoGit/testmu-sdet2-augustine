@@ -17,6 +17,7 @@ jobs:
     env:
       USERNAME: ${{ secrets.USERNAME }}
       PASSWORD: ${{ secrets.PASSWORD }}
+      BROWSER: ${{ vars.BROWSER }}
 
     steps:
     - name: Checkout code
@@ -31,7 +32,7 @@ jobs:
       run: npm i
 
     - name: Install Playwright Browser
-      run: npx playwright install ${{ vars.BROWSER }}
+      run: npx playwright install ${{ env.BROWSER }}
 
     - name: Run Playwright tests
       run: npx playwright test
