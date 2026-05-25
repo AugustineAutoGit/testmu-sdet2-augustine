@@ -17,9 +17,9 @@ jobs:
         url: https://augustineautogit.github.io/testmu-sdet2-augustine/${{ github.run_number }}/index.html
     runs-on: ubuntu-latest
     env:
-      USERNAME: "${{ secrets.USERNAME }}"
-      PASSWORD: "${{ secrets.PASSWORD }}"
-      API_KEY: "${{ secrets.API_KEY }}"
+      # USERNAME: "${{ secrets.USERNAME }}"
+      # PASSWORD: "${{ secrets.PASSWORD }}"
+      # API_KEY: "${{ secrets.API_KEY }}"
       BROWSER: ${{ vars.BROWSER || 'chrome' }}
 
     steps:
